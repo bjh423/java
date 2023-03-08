@@ -3,11 +3,16 @@ package 화면DB연결;
 import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
+
+import 자바DB연결.MemberDao2;
 
 public class MemberUI {
 
@@ -31,6 +36,74 @@ public class MemberUI {
 		JButton b2 = new JButton("회원탈퇴 처리");
 		JButton b3 = new JButton("회원수정 처리");
 		JButton b4 = new JButton("회원검색 처리");
+		
+
+		//가입
+		b1.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				System.out.println("회원가입처리");
+				String id = t1.getText();
+				String pw = t2.getText();
+				String name = t3.getText();
+				String tel = t4.getText();
+				
+				if(id.equals("")) {
+					JOptionPane.showMessageDialog(f, "아이디는 필수 입력 항목입니다.");
+				}
+				
+				MemberDao2 dao = new MemberDao2();
+				dao.insert(id, pw, name, tel);
+
+			}
+		});
+		
+		//탈퇴
+		b2.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				System.out.println("회원탈퇴처리");
+				String id = t1.getText();
+				
+				MemberDao2 dao = new MemberDao2();
+				dao.delete(id);
+
+			}
+		});
+		
+		//수정
+		b3.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				System.out.println("회원정보 수정처리");
+				String id = t1.getText();
+				String tel = t4.getText();
+				
+				MemberDao2 dao = new MemberDao2();
+				dao.update(id, tel);
+
+			}
+		});
+		
+		//검색
+		b4.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				System.out.println("회원가입처리");
+				String id = t1.getText();
+				String pw = t2.getText();
+				String name = t3.getText();
+				String tel = t4.getText();
+				
+				MemberDao2 dao = new MemberDao2();
+				dao.insert(id, pw, name, tel);
+
+			}
+		});
 		
 		FlowLayout flow = new FlowLayout();
 		
