@@ -12,25 +12,28 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
-import 자바DB연결.MemberDao3;
+import 자바DB연결.MP_StaffDAO;
 
-public class MemberUI2 {
-
+public class MP_StaffUI {
 	public static void main(String[] args) {
 		JFrame f = new JFrame();
 		f.setTitle("나의 회원가입 화면");
-		f.setSize(600, 420);
+		f.setSize(600, 600);
 
 		JLabel l1 = new JLabel("<<<< 회원가입화면 >>>>");
-		JLabel l2 = new JLabel("아이디");
+		JLabel l2 = new JLabel("아 이 디");
 		JLabel l3 = new JLabel("패스워드");
-		JLabel l4 = new JLabel("이 름");
+		JLabel l4 = new JLabel("이      름");
 		JLabel l5 = new JLabel("전화번호");
+		JLabel l6 = new JLabel("직      책"); //(점장1 매니저2 정직원3 알바4)
+		JLabel l7 = new JLabel("인증코드");
 
 		JTextField t1 = new JTextField(10);
 		JTextField t2 = new JTextField(10);
 		JTextField t3 = new JTextField(10);
 		JTextField t4 = new JTextField(10);
+		JTextField t5 = new JTextField(10);
+		JTextField t6 = new JTextField(10);
 
 		JButton b1 = new JButton("회원가입 처리");
 		JButton b2 = new JButton("회원탈퇴 처리");
@@ -47,20 +50,22 @@ public class MemberUI2 {
 				String pw = t2.getText();
 				String name = t3.getText();
 				String tel = t4.getText();
+				int level = Integer.parseInt(t5.getText());
 
 				if (id.equals("")) {
 					JOptionPane.showMessageDialog(f, "아이디는 필수 입력 항목입니다.");
 				}
 
-				MemberDao3 dao = new MemberDao3();
-				MemberVO bag = new MemberVO();
+				MP_StaffDAO dao = new MP_StaffDAO();
+				MP_StaffVO bag = new MP_StaffVO();
 
 				bag.setId(id);
 				bag.setPw(pw);
 				bag.setName(name);
 				bag.setTel(tel);
+				bag.setLevel(level);
 
-				int result = dao.insert(bag);
+				int result = dao.insert(bag, t6.getText());
 
 				if (result == 1) {
 					JOptionPane.showMessageDialog(f, "회원가입 성공");
@@ -79,8 +84,8 @@ public class MemberUI2 {
 				System.out.println("회원탈퇴처리");
 				String id = t1.getText();
 
-				MemberDao3 dao = new MemberDao3();
-				MemberVO bag = new MemberVO();
+				MP_StaffDAO dao = new MP_StaffDAO();
+				MP_StaffVO bag = new MP_StaffVO();
 				int result = dao.delete(bag);
 				if (result == 1) {
 					JOptionPane.showMessageDialog(f, "회원탈퇴 처리 완료");
@@ -100,9 +105,9 @@ public class MemberUI2 {
 				String id = t1.getText();
 				String tel = t4.getText();
 
-				MemberDao3 dao = new MemberDao3();
-				MemberVO bag = new MemberVO();
-				int result = dao.update(bag);
+				MP_StaffDAO dao = new MP_StaffDAO();
+				MP_StaffVO bag = new MP_StaffVO();
+				int result = dao.update(bag, t6.getText());
 				if (result == 1) {
 					JOptionPane.showMessageDialog(f, "회원정보 수정 완료");
 				} else {
@@ -111,6 +116,7 @@ public class MemberUI2 {
 			}
 		});
 
+		/*
 		b4.addActionListener(new ActionListener() {
 
 			@Override
@@ -118,9 +124,9 @@ public class MemberUI2 {
 				System.out.println("회원검색처리");
 				String id = t1.getText();
 
-				MemberDao3 dao = new MemberDao3();
-				MemberVO bag = dao.one(id);
-				
+				MP_StaffDAO dao = new MP_StaffDAO();
+				MP_StaffVO bag = dao.one(id);
+
 				if (bag != null) {
 					t2.setText(bag.getPw());
 					t2.setBackground(Color.white);
@@ -134,11 +140,10 @@ public class MemberUI2 {
 					t3.setText("");
 					t4.setText("");
 				}
-				
-				
 
 			}
 		});
+		*/
 
 		FlowLayout flow = new FlowLayout();
 
@@ -147,14 +152,12 @@ public class MemberUI2 {
 		f.setLayout(flow);
 
 		f.add(l1);
-		f.add(l2);
-		f.add(t1);
-		f.add(l3);
-		f.add(t2);
-		f.add(l4);
-		f.add(t3);
-		f.add(l5);
-		f.add(t4);
+		f.add(l2);f.add(t1);
+		f.add(l3);f.add(t2);
+		f.add(l4);f.add(t3);
+		f.add(l5);f.add(t4);
+		f.add(l6);f.add(t5);
+		f.add(l7);f.add(t6);
 		f.add(b1);
 		f.add(b2);
 		f.add(b3);
@@ -165,10 +168,14 @@ public class MemberUI2 {
 		l3.setFont(font);
 		l4.setFont(font);
 		l5.setFont(font);
+		l6.setFont(font);
+		l7.setFont(font);
 		t1.setFont(font);
 		t2.setFont(font);
 		t3.setFont(font);
 		t4.setFont(font);
+		t5.setFont(font);
+		t6.setFont(font);
 		b1.setFont(font);
 		b2.setFont(font);
 		b3.setFont(font);
@@ -182,6 +189,10 @@ public class MemberUI2 {
 		t3.setForeground(Color.blue);
 		t4.setBackground(Color.yellow);
 		t4.setForeground(Color.blue);
+		t5.setBackground(Color.yellow);
+		t5.setForeground(Color.blue);
+		t6.setBackground(Color.yellow);
+		t6.setForeground(Color.blue);
 
 		b1.setBackground(Color.pink);
 		b1.setForeground(Color.red);
@@ -191,7 +202,6 @@ public class MemberUI2 {
 		b3.setForeground(Color.red);
 		b4.setBackground(Color.pink);
 		b4.setForeground(Color.red);
-		
 
 		f.getContentPane().setBackground(Color.green);
 

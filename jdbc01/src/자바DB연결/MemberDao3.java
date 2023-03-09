@@ -3,6 +3,9 @@ package 자바DB연결;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+
+import javax.swing.JOptionPane;
 
 import 화면DB연결.MemberVO;
 
@@ -109,7 +112,87 @@ public class MemberDao3 {
 		return result;
 	}
 
+	public MemberVO one(String id) {
+		ResultSet rs = null; // 기본형 : 값으로 초기화, 참조형 : null
+		MemberVO bag = null;
+		try {
+			Class.forName("oracle.jdbc.driver.OracleDriver");
+			System.out.println("1. 드라이버 설정 성공");
+
+			String url = "jdbc:oracle:thin:@localhost:1521:xe";
+			String user = "system";
+			String password = "oracle";
+			Connection con = DriverManager.getConnection(url, user, password);
+			System.out.println("2. 오라클연결 성공");
+
+			String sql = "select * from hr.MEMBER where id = ? ";
+			PreparedStatement ps = con.prepareStatement(sql); // PreparedStatement
+			ps.setString(1, id);
+			System.out.println("3. SQL문 객체화");
+
+			rs = ps.executeQuery();
+			System.out.println("4. sql문 전송 성공");
+			if (rs.next()) { // 검색결과가 있는가? true = 있다, false = 없다
+				System.out.println("검색결과 있음");
+				String id2 = rs.getString(1);
+				String pw2 = rs.getString(2);
+				String name2 = rs.getString(3);
+				String tel2 = rs.getString(4);
+				System.out.println(id2 + " " + pw2 + " " + name2 + " " + tel2);
+				
+				bag = new MemberVO();
+				bag.setId(id2);
+				bag.setName(name2);
+				bag.setPw(pw2);
+				bag.setTel(tel2);
+			} else {
+				System.out.println("검색결과 없음");
+			}
+		} catch (Exception e) {
+			System.out.println("검색 중 문제 발생");
+		}
+		return bag;
+	}
+	
+	public int login(MemberVO bag) {
+		ResultSet rs = null;
+		int result = 0; //로그인 실패시
+		try {
+			Class.forName("oracle.jdbc.driver.OracleDriver");
+			System.out.println("1. 드라이버 설정 성공");
+
+			String url = "jdbc:oracle:thin:@localhost:1521:xe";
+			String user = "system";
+			String password = "oracle";
+			Connection con = DriverManager.getConnection(url, user, password);
+			System.out.println("2. 오라클연결 성공");
+
+			String sql = "select pw,name from hr.MEMBER where id = ? ";
+			PreparedStatement ps = con.prepareStatement(sql);
+			ps.setString(1, bag.getId());
+			System.out.println("3. sql문 부품(객체)로 만들기");
+
+			rs = ps.executeQuery();
+			if (rs.next()) { //검색 성공
+				System.out.println("아이디 존재");
+				if (bag.getPw().equals(rs.getString(1))) {//비밀번호 일치
+					JOptionPane.showMessageDialog(null, "환영합니다 " + rs.getString(2) + "님");
+					result = 1;
+				}else {//비밀번호 불일치
+					JOptionPane.showMessageDialog(null, "비밀번호가 일치하지 않습니다.");
+				}
+			} else {JOptionPane.showMessageDialog(null, "존재하지 않는 아이디입니다.");}
+			System.out.println("4. sql문 전송 성공");
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			result = 0;
+		}
+		return result;
+	}
+
 }
+
 /*
  * 1. JDBC4단계 정리 : 드라이버 연결 -> 오라클 로그인 -> sql객체 생성 -> 객체 전송 2. 데이터를 접근해서 처리하는
  * 클래스를 부르는 이름 : DAO(data access object) 3. DAO에 주로 넣는 기능 - 4가지 : crud 4. DAO에

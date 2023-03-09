@@ -13,9 +13,9 @@ import javax.swing.JTextField;
 
 import 자바DB연결.BbsDao;
 
-public class BbsUI {
+public class BbsUI2 {
 
-	public static void main(String[] args) {
+	public static void open() {
 		JFrame f = new JFrame();
 		f.setTitle("나의 게시판 화면");
 		f.setSize(600, 400);
