@@ -4,19 +4,57 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-
-import javax.swing.JOptionPane;
+import java.util.ArrayList;
 
 import 화면DB연결.MP_StaffVO;
 
 public class MP_StaffDAO {
 	MP_StaffVO bag = new MP_StaffVO();
 
-	// insert
-	public int insert(MP_StaffVO bag, String Lock) { // 관리자 가입, Lock는 유저가 입력한 인증코드
-		int result = 0; // insert 성공시 1, 실패시 0
+	public int codeCheck(int rank, String code) {// 직책과 그에맞는 인증코드를 비교하는 메소드, 0성공 1불일치 2오류발생
+		int result = 1;
 		ResultSet rs = null;
-		MP_StaffVO Stf_Bag = null;
+		try {
+			Class.forName("oracle.jdbc.driver.OracleDriver");
+			System.out.println("1. 드라이버 설정 성공");
+
+			String url = "jdbc:oracle:thin:@localhost:1521:xe";
+			String user = "system";
+			String password = "oracle";
+			Connection con = DriverManager.getConnection(url, user, password);
+			System.out.println("2. 오라클연결 성공");
+
+			String sql = "select TEL from hr.MP_STA where CODE = ? ";
+			PreparedStatement ps = con.prepareStatement(sql);
+			ps.setString(1, rank + "");
+			rs = ps.executeQuery();
+
+			// rs.getString(1) : 사용자가 입력한 rank 에 맞는 인증코드
+			// code = 유저가 입력한 코드
+			if (rs.next()) {
+				if (rs.getString(1).equals(code)) {
+					result = 0;
+				} else {
+					result = 1;
+					System.out.println("인증코드 불일치");
+				}
+			}
+			ps.close();
+			rs.close();
+			con.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.out.println("오류 발생");
+			result = 2;
+		}
+		System.out.println("인증코드 확인 종료");
+		return result;
+	}
+
+	// insert
+	public int insert(MP_StaffVO bag) { // 관리자 가입
+		int result = 0; // insert 성공시 1, 실패시 0
+
 		try {
 			Class.forName("oracle.jdbc.driver.OracleDriver");
 			System.out.println("1. 드라이버 설정");
@@ -27,38 +65,22 @@ public class MP_StaffDAO {
 			Connection con = DriverManager.getConnection(url, user, password);
 			System.out.println("2. 오라클 로그인 성공");
 
-			String sql = "SELECT TEL FROM HR.MP_STA WHERE CODE = ?;"; // 인증코드 확인절차
+			String sql = "INSERT INTO HR.MP_STA VALUES(HR.MP_STA_ID_SEQ.nextval, ? , ? , ? , ? , ? ) ";// code,id,pw,name,tel,rank
 			PreparedStatement ps = con.prepareStatement(sql);
-			ps.setString(1, bag.getLevel()+"");
+			ps.setString(1, bag.getId());
+			ps.setString(2, bag.getPw());
+			ps.setString(3, bag.getName());
+			ps.setString(4, bag.getTel());
+			ps.setInt(5, bag.getRank());
+			System.out.println("3. sql문 객체화 완료");
 
-			System.out.println("3.1 인증코드 관련 sql문 객체화 완료");
-			System.out.println(sql);
-			rs = ps.executeQuery();
+			result = ps.executeUpdate();
+			System.out.println("4. sql문 전송 성공");
 
-			System.out.println("4.1 인증코드 관련 sql문 전송 성공");
-			
-			if (rs.getString(1).equals(Lock)) {// 설정한 직책의 tel(인증코드)와 입력한 인증코드가 같다면 회원가입 진행
-
-				String sql2 = "INSERT INTO MP_STA VALUES(MP_STA_ID_SEQ.nextval,?,?,?,?,?);";// code,id,pw,name,tel,level
-				PreparedStatement ps2 = con.prepareStatement(sql2);
-				ps2.setString(1, bag.getId());
-				ps2.setString(2, bag.getPw());
-				ps2.setString(3, bag.getName());
-				ps2.setString(4, bag.getTel());
-				ps2.setInt(5, bag.getLevel());
-				System.out.println("3. sql문 객체화 완료");
-
-				result = ps.executeUpdate();
-				System.out.println("4. sql문 전송 성공");
-				if (result == 1) {
-					System.out.println("회원가입 성공");
-				}
-			} else {
-				System.out.println("잘못된 인증코드 입력");
-				JOptionPane.showMessageDialog(null, "잘못된 인증코드입니다.");
-			}
+			ps.close();
+			con.close();
 		} catch (Exception e) {
-			System.out.println("오류 발생");
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
@@ -79,15 +101,17 @@ public class MP_StaffDAO {
 			Connection con = DriverManager.getConnection(url, user, password);
 			System.out.println("2. 오라클연결 성공");
 
-			String sql = "delete from hr.MP_STA where code = ? ";
+			String sql = "delete from hr.MP_STA where id = ? ";
 			PreparedStatement ps = con.prepareStatement(sql);
-			ps.setInt(1, bag.getCode());
+			ps.setString(1, bag.getId());
 			System.out.println("3. sql문 부품(객체)로 만들기");
 			result = ps.executeUpdate();
 			if (result == 1) {
 				System.out.println("관리자삭제 성공");
 			}
 			System.out.println("4. sql문 전송 성공");
+			ps.close();
+			con.close();
 		} catch (Exception e) {
 			result = 0;
 			e.printStackTrace();
@@ -96,9 +120,8 @@ public class MP_StaffDAO {
 	}
 
 	// update
-	public int update(MP_StaffVO bag, String Lock) { // 관리자 정보 수정
+	public int update(MP_StaffVO bag, String PreID) { // 관리자 정보 수정 (변경 후 정보, 변경 전 아이디)
 		int result = 0;
-		ResultSet rs = null;
 		try {
 			Class.forName("oracle.jdbc.driver.OracleDriver");
 			System.out.println("1. 드라이버 설정 성공");
@@ -109,30 +132,22 @@ public class MP_StaffDAO {
 			Connection con = DriverManager.getConnection(url, user, password);
 			System.out.println("2. 오라클연결 성공");
 
-			String sql = "select tel from hr.MP_STA where id = ? );"; // 인증코드 확인절차
+			String sql = "update HR.MP_STA SET ID=?, PW=?, NAME=?, TEL=?, STA_RANK=? where ID=?";
+			
 			PreparedStatement ps = con.prepareStatement(sql);
-			ps.setInt(1, bag.getLevel());
-			rs = ps.executeQuery();
-			if (rs.getString(1).equals(Lock)) {// 설정한 직책의 tel(인증코드)와 입력한 인증코드가 같다면 정보수정
+			ps.setString(1, bag.getId());
+			ps.setString(2, bag.getPw());
+			ps.setString(3, bag.getName());
+			ps.setString(4, bag.getTel());
+			ps.setInt(5, bag.getRank());
+			ps.setString(6, PreID);
+			System.out.println("3. sql문 부품(객체)로 만들기");
 
-				String sql2 = "update hr.MP_STA set id = ?, pw = ? ,name = ? , tel = ?, level = ? where code = ? ";
-				PreparedStatement ps2 = con.prepareStatement(sql2);
-				ps2.setString(1, bag.getId());
-				ps2.setString(2, bag.getPw());
-				ps2.setString(3, bag.getName());
-				ps2.setString(4, bag.getTel());
-				ps2.setInt(5, bag.getLevel());
-				ps2.setInt(6, bag.getCode());
-				System.out.println("3. sql문 부품(객체)로 만들기");
+			result = ps.executeUpdate();
+			System.out.println("4. sql문 전송");
 
-				result = ps2.executeUpdate();
-				if (result == 1) {
-					System.out.println("회원정보 수정 성공");
-				}
-			} else {
-				System.out.println("잘못된 인증코드 입력");
-				JOptionPane.showMessageDialog(null, "잘못된 인증코드입니다.");
-			}
+			ps.close();
+			con.close();
 		} catch (Exception e) {
 			e.printStackTrace();
 			result = 0;
@@ -141,9 +156,9 @@ public class MP_StaffDAO {
 	}
 
 	// search
-	public MP_StaffVO one(int code) { // 구현만, 사용x?
+	public int login(String id, String pw) { // 아이디 비밀번호 일치 확인, 0일치 1아이디없음 2비밀번호 틀림
 		ResultSet rs = null; // 기본형 : 값으로 초기화, 참조형 : null
-		MP_StaffVO bag = null;
+		int result = 1;
 		try {
 			Class.forName("oracle.jdbc.driver.OracleDriver");
 			System.out.println("1. 드라이버 설정 성공");
@@ -154,54 +169,81 @@ public class MP_StaffDAO {
 			Connection con = DriverManager.getConnection(url, user, password);
 			System.out.println("2. 오라클연결 성공");
 
-			String sql = "select * from hr.mp_sta where code = ? ";
+			String sql = "select pw from hr.mp_sta where id = ? ";
 			PreparedStatement ps = con.prepareStatement(sql); // PreparedStatement
-			ps.setInt(1, code);
+			ps.setString(1, id);
 			System.out.println("3. SQL문 객체화");
 
 			rs = ps.executeQuery();
 			System.out.println("4. sql문 전송 성공");
-			if (rs.next()) { // 검색결과가 있는가? true = 있다, false = 없다
-				System.out.println("검색결과 있음");
-				String id2 = rs.getString(2);
-				String pw2 = rs.getString(3);
-				String name2 = rs.getString(4);
-				String tel2 = rs.getString(5);
-				int level = rs.getInt(6);
-				String level2 = null;
-				switch (level) {
-				case 1:
-					level2 = "점장";
-					break;
-				case 2:
-					level2 = "매니저";
-					break;
-				case 3:
-					level2 = "정직원";
-					break;
-				case 4:
-					level2 = "아르바이트";
-					break;
-				default:
-					break;
+			if (rs.next()) {// 아이디 있음
+
+				if (rs.getString(1).equals(pw)) {// 가져온 패스워드 = 원래 패스워드
+					result = 0;
+				} else {
+					result = 2;
 				}
 
-				System.out.println(id2 + " " + pw2 + " " + name2 + " " + tel2 + " " + level2);
-
-				bag = new MP_StaffVO();
-				bag.setId(id2);
-				bag.setName(name2);
-				bag.setPw(pw2);
-				bag.setTel(tel2);
-				bag.setLevel(level);
-			} else {
-				System.out.println("검색결과 없음");
+			} else {// 아이디 없음
+				result = 1;
 			}
+
+			ps.close();
+			con.close();
+			rs.close();
+
 		} catch (Exception e) {
 			System.out.println("검색 중 문제 발생");
 		}
-		return bag;
+		System.out.println("로그인 정보 확인 종료");
+		return result;
 	}
-	
 
+	public ArrayList<MP_StaffVO> search() {
+		ResultSet rs = null; // 기본형 : 값으로 초기화, 참조형 : null
+		ArrayList<MP_StaffVO> list = new ArrayList<>(); //MP_StaffVO만 들어간 arraylist
+		MP_StaffVO bag = null;
+				
+		try {
+			Class.forName("oracle.jdbc.driver.OracleDriver");
+			System.out.println("1. 드라이버 설정 성공");
+
+			String url = "jdbc:oracle:thin:@localhost:1521:xe";
+			String user = "system";
+			String password = "oracle";
+			Connection con = DriverManager.getConnection(url, user, password);
+			System.out.println("2. 오라클연결 성공");
+
+			String sql = "select * from hr.MP_STA WHERE code>4 ORDER BY CODE";
+			PreparedStatement ps = con.prepareStatement(sql); // PreparedStatement
+			System.out.println("3. SQL문 객체화");
+
+			rs = ps.executeQuery();
+			System.out.println("4. sql문 전송 성공");
+			while (rs.next()) { // 검색결과가 있는가? true = 있다, false = 없다
+				int code = rs.getInt(1);
+				String id = rs.getString(2);
+				String pw = rs.getString(3);
+				String name = rs.getString(4);
+				String tel = rs.getString(5);
+				int rank = rs.getInt(6);
+				
+				bag = new MP_StaffVO();
+				bag.setCode(code);
+				bag.setId(id);
+				bag.setPw(pw);
+				bag.setName(name);
+				bag.setTel(tel);
+				bag.setRank(rank);
+				
+				list.add(bag);
+			}
+			ps.close();
+			con.close();
+			rs.close();
+		} catch (Exception e) {
+			System.out.println("검색 중 문제 발생");
+		}
+		return list;
+	}
 }

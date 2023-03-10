@@ -5,13 +5,17 @@ import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.JTextField;
 
+import 자바DB연결.MP_StaffDAO;
 import 자바DB연결.MP_StaffDAO;
 
 public class MP_StaffUI {
@@ -25,7 +29,7 @@ public class MP_StaffUI {
 		JLabel l3 = new JLabel("패스워드");
 		JLabel l4 = new JLabel("이      름");
 		JLabel l5 = new JLabel("전화번호");
-		JLabel l6 = new JLabel("직      책"); //(점장1 매니저2 정직원3 알바4)
+		JLabel l6 = new JLabel("직      책"); // (점장1 매니저2 정직원3 알바4)
 		JLabel l7 = new JLabel("인증코드");
 
 		JTextField t1 = new JTextField(10);
@@ -45,32 +49,43 @@ public class MP_StaffUI {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				int result = 0;
+
+				MP_StaffDAO dao = new MP_StaffDAO();
+				MP_StaffVO bag = new MP_StaffVO();
+
 				System.out.println("회원가입처리");
 				String id = t1.getText();
 				String pw = t2.getText();
 				String name = t3.getText();
 				String tel = t4.getText();
-				int level = Integer.parseInt(t5.getText());
-
-				if (id.equals("")) {
-					JOptionPane.showMessageDialog(f, "아이디는 필수 입력 항목입니다.");
-				}
-
-				MP_StaffDAO dao = new MP_StaffDAO();
-				MP_StaffVO bag = new MP_StaffVO();
+				int rank = Integer.parseInt(t5.getText());
 
 				bag.setId(id);
 				bag.setPw(pw);
 				bag.setName(name);
 				bag.setTel(tel);
-				bag.setLevel(level);
+				bag.setRank(rank);
 
-				int result = dao.insert(bag, t6.getText());
-
-				if (result == 1) {
-					JOptionPane.showMessageDialog(f, "회원가입 성공");
+				if (id.equals("")) {
+					JOptionPane.showMessageDialog(f, "아이디는 필수 입력 항목입니다.");
 				} else {
-					JOptionPane.showMessageDialog(f, "회원가입 실패, 재입력해주세요");
+					switch (dao.codeCheck(rank, t6.getText())) {
+					case 2:
+						JOptionPane.showMessageDialog(f, "오류발생");
+						break;
+					case 1:
+						JOptionPane.showMessageDialog(f, "인증코드가 일치하지 않습니다");
+						break;
+					case 0:
+						result = dao.insert(bag);
+						if (result == 1) {
+							JOptionPane.showMessageDialog(f, "회원가입 성공");
+						} else {
+							JOptionPane.showMessageDialog(f, "회원가입 실패");
+						}
+						break;
+					}
 				}
 
 			}
@@ -86,6 +101,7 @@ public class MP_StaffUI {
 
 				MP_StaffDAO dao = new MP_StaffDAO();
 				MP_StaffVO bag = new MP_StaffVO();
+				bag.setId(id);
 				int result = dao.delete(bag);
 				if (result == 1) {
 					JOptionPane.showMessageDialog(f, "회원탈퇴 처리 완료");
@@ -101,49 +117,107 @@ public class MP_StaffUI {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				System.out.println("회원정보 수정처리");
-				String id = t1.getText();
-				String tel = t4.getText();
-
 				MP_StaffDAO dao = new MP_StaffDAO();
 				MP_StaffVO bag = new MP_StaffVO();
-				int result = dao.update(bag, t6.getText());
-				if (result == 1) {
-					JOptionPane.showMessageDialog(f, "회원정보 수정 완료");
-				} else {
-					JOptionPane.showMessageDialog(f, "회원정보 수정 실패");
+
+				System.out.println("회원정보 수정처리");
+
+				String preID = JOptionPane.showInputDialog("확인을 위해 기존 아이디를 입력해주세요");
+				String prePW = JOptionPane.showInputDialog("확인을 위해 기존 비밀번호를 입력해주세요");
+
+				int tmp = 0;
+				switch (dao.login(preID, prePW)) {
+				case 2:
+					JOptionPane.showMessageDialog(f, "비밀번호가 틀렸습니다");
+					preID = JOptionPane.showInputDialog(f, "확인을 위해 기존 아이디를 입력해주세요");
+					prePW = JOptionPane.showInputDialog(f, "확인을 위해 기존 비밀번호를 입력해주세요");
+				case 1:
+					JOptionPane.showMessageDialog(f, "아이디가 존재하지 않습니다");
+					preID = JOptionPane.showInputDialog(f, "확인을 위해 기존 아이디를 입력해주세요");
+					prePW = JOptionPane.showInputDialog(f, "확인을 위해 기존 비밀번호를 입력해주세요");
+				case 0:
+					tmp = 1;
+					break;
 				}
+
+				if (tmp == 1) {
+					String id = t1.getText();
+					String pw = t2.getText();
+					String name = t3.getText();
+					String tel = t4.getText();
+					String rank = t5.getText();
+
+					bag.setId(id);
+					bag.setPw(pw);
+					bag.setName(name);
+					bag.setTel(tel);
+					bag.setRank(Integer.parseInt(rank));
+
+					int x = dao.codeCheck(bag.getRank(), t6.getText());
+					switch (x) {
+					case 1:
+						JOptionPane.showMessageDialog(f, "인증코드가 일치하지 않습니다");
+						break;
+					case 2:
+						JOptionPane.showMessageDialog(f, "인증코드 확인 중 오류가 발생했습니다");
+						break;
+					case 0:
+						dao.update(bag, preID);
+						break;
+					}
+				}
+
 			}
 		});
 
-		/*
 		b4.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				System.out.println("회원검색처리");
-				String id = t1.getText();
+				JFrame f = new JFrame();
+				f.setSize(550, 700);
 
 				MP_StaffDAO dao = new MP_StaffDAO();
-				MP_StaffVO bag = dao.one(id);
+				ArrayList<MP_StaffVO> list = dao.search();
 
-				if (bag != null) {
-					t2.setText(bag.getPw());
-					t2.setBackground(Color.white);
-					t3.setText(bag.getName());
-					t3.setBackground(Color.white);
-					t4.setText(bag.getTel());
-					t4.setBackground(Color.white);
+				String[] header = { "직원번호", "아이디", "이름", "전화번호","직원등급" };
+				Object[][] all = new String[list.size()][5];
+
+				if (list.size() == 0) {
+					System.out.println("검색 결과 없음");
 				} else {
-					JOptionPane.showMessageDialog(f, "검색결과없음");
-					t2.setText("");
-					t3.setText("");
-					t4.setText("");
+					System.out.println("총 " + list.size() + "개의 검색결과가 있습니다.");
+
+					for (int i = 0; i < all.length; i++) {
+						all[i][0] = list.get(i).getCode()+"";
+						all[i][1] = list.get(i).getId();
+						all[i][2] = list.get(i).getName();
+						all[i][3] = list.get(i).getTel();
+						switch (list.get(i).getRank()) {
+						case 1:
+							all[i][4] = "점장";
+							break;
+						case 2:
+							all[i][4] = "매니저";
+							break;
+						case 3:
+							all[i][4] = "정직원";
+							break;
+						case 4:
+							all[i][4] = "아르바이트";
+							break;
+						}
+						
+					}
 				}
 
+				JTable table = new JTable(all, header);
+				JScrollPane scroll = new JScrollPane(table);
+
+				f.add(scroll);
+				f.setVisible(true);
 			}
 		});
-		*/
 
 		FlowLayout flow = new FlowLayout();
 
@@ -152,12 +226,18 @@ public class MP_StaffUI {
 		f.setLayout(flow);
 
 		f.add(l1);
-		f.add(l2);f.add(t1);
-		f.add(l3);f.add(t2);
-		f.add(l4);f.add(t3);
-		f.add(l5);f.add(t4);
-		f.add(l6);f.add(t5);
-		f.add(l7);f.add(t6);
+		f.add(l2);
+		f.add(t1);
+		f.add(l3);
+		f.add(t2);
+		f.add(l4);
+		f.add(t3);
+		f.add(l5);
+		f.add(t4);
+		f.add(l6);
+		f.add(t5);
+		f.add(l7);
+		f.add(t6);
 		f.add(b1);
 		f.add(b2);
 		f.add(b3);

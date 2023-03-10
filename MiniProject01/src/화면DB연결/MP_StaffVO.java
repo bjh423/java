@@ -6,7 +6,7 @@ public class MP_StaffVO {
 	private String pw; // 로그인 비밀번호
 	private String name; // 이름
 	private String tel; // 전화번호 (겸 가입 인증코드)
-	private int level; // 직책 (1:점장 2:매니저 3:정직원 4:알바)
+	private int rank; // 직책 (1:점장 2:매니저 3:정직원 4:알바)
 
 	public int getCode() {
 		return code;
@@ -48,18 +48,18 @@ public class MP_StaffVO {
 		this.tel = tel;
 	}
 
-	public int getLevel() {
-		return level;
+	public int getRank() {
+		return rank;
 	}
 
-	public void setLevel(int level) {
-		this.level = level;
+	public void setRank(int rank) {
+		this.rank = rank;
 	}
 
 	@Override
 	public String toString() {
-		return "MP_StaffVO [code=" + code + ", id=" + id + ", pw=" + pw + ", name=" + name + ", tel=" + tel + ", level="
-				+ level + "]";
+		return "MP_StaffVO [code=" + code + ", id=" + id + ", pw=" + pw + ", name=" + name + ", tel=" + tel + ", rank="
+				+ rank + "]";
 	}
 
 }

@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.ArrayList;
 
 import javax.swing.JOptionPane;
 
@@ -191,6 +192,51 @@ public class MemberDao3 {
 		return result;
 	}
 
+	public ArrayList<MemberVO> list() {
+		ResultSet rs = null; // 기본형 : 값으로 초기화, 참조형 : null
+		ArrayList<MemberVO> list = new ArrayList<>(); //MemberVO만 들어간 arraylist
+		MemberVO bag = null;
+				
+		try {
+			Class.forName("oracle.jdbc.driver.OracleDriver");
+			System.out.println("1. 드라이버 설정 성공");
+
+			String url = "jdbc:oracle:thin:@localhost:1521:xe";
+			String user = "system";
+			String password = "oracle";
+			Connection con = DriverManager.getConnection(url, user, password);
+			System.out.println("2. 오라클연결 성공");
+
+			String sql = "select * from hr.MEMBER ";
+			PreparedStatement ps = con.prepareStatement(sql); // PreparedStatement
+			System.out.println("3. SQL문 객체화");
+
+			rs = ps.executeQuery();
+			System.out.println("4. sql문 전송 성공");
+			while (rs.next()) { // 검색결과가 있는가? true = 있다, false = 없다
+				String id2 = rs.getString(1);
+				String pw2 = rs.getString(2);
+				String name2 = rs.getString(3);
+				String tel2 = rs.getString(4);
+				//System.out.println(id2 + " " + pw2 + " " + name2 + " " + tel2);
+				
+				bag = new MemberVO();
+				bag.setId(id2);
+				bag.setName(name2);
+				bag.setPw(pw2);
+				bag.setTel(tel2);
+				
+				list.add(bag);
+			}
+			ps.close();
+			con.close();
+			rs.close();
+		} catch (Exception e) {
+			System.out.println("검색 중 문제 발생");
+		}
+		return list;
+	}
+	
 }
 
 /*
