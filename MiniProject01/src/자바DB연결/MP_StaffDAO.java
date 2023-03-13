@@ -246,4 +246,8 @@ public class MP_StaffDAO {
 		}
 		return list;
 	}
+	
+	public void Change() {
+		
+	}
 }

@@ -21,10 +21,10 @@ import 자바DB연결.MP_StaffDAO;
 public class MP_StaffUI {
 	public static void main(String[] args) {
 		JFrame f = new JFrame();
-		f.setTitle("나의 회원가입 화면");
+		f.setTitle("관리자 화면");
 		f.setSize(600, 600);
 
-		JLabel l1 = new JLabel("<<<< 회원가입화면 >>>>");
+		JLabel l1 = new JLabel("관리자 가입 화면");
 		JLabel l2 = new JLabel("아 이 디");
 		JLabel l3 = new JLabel("패스워드");
 		JLabel l4 = new JLabel("이      름");
@@ -221,7 +221,7 @@ public class MP_StaffUI {
 
 		FlowLayout flow = new FlowLayout();
 
-		Font font = new Font("궁서", Font.BOLD, 35);
+		Font font = new Font("굴림", Font.BOLD, 35);
 
 		f.setLayout(flow);
 
