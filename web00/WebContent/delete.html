@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script type="text/javascript">
+	alert('회원탈퇴 페이지 입니다.')
+</script>
+<style type="text/css">
+body {
+	background: #ffdc7d;
+}
+
+button {
+	background: #82a9ff;
+}
+
+.t1 {
+	/* .은 클래스(여러개) */
+	width: 150px;
+	text-align: center;
+}
+
+#b1 {
+	/* id는 한개만 */
+	color: red;
+}
+
+#b2 {
+	color: purple;
+}
+</style>
+
+
+</head>
+<body>
+	<h3>회원탈퇴 페이지</h3>
+	<hr>
+	<a href="member.html"><button id="b1">처음으로</button></a>
+	<form action="delete.jsp">
+		<table border="1">
+			<tr>
+				<td class="t1">아이디 :</td>
+				<td><input name="id"></td>
+			</tr>
+			<tr>
+				<td colspan="2" class="t1"><button id="b2">회원탈퇴 데이터 전송</button></td>
+			</tr>
+		</table>
+		<!-- 보충내용 : <input name="data"> -->
+	</form>
+</body>
+</html>

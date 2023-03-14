@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script type="text/javascript">
+	alert('게시판 글쓰기 페이지 입니다.')
+</script>
+<style type="text/css">
+body {
+	background: #ffdc7d;
+}
+
+button {
+	background: #82a9ff;
+}
+
+.t1 {
+	/* .은 클래스(여러개) */
+	width: 150px;
+	text-align: center;
+}
+
+#b1 {
+	/* id는 한개만 */
+	color: red;
+}
+
+#b2 {
+	color: purple;
+}
+</style>
+
+
+</head>
+<body>
+	<!--no,title,content,writer 게시판 글쓰기  -->
+	<h3>회원가입 페이지</h3>
+	<hr>
+	<a href="member.html"><button id="b1">처음으로</button></a>
+	<form action="insert2.jsp">
+		<table border="1">
+			<tr>
+				<td class="t1">번호 :</td>
+				<td><input name="no"></td>
+			</tr>
+
+			<tr>
+				<td class="t1">제 목 :</td>
+				<td><input name="title"></td>
+			</tr>
+
+			<tr>
+				<td class="t1">내용 :</td>
+				<td><textarea rows="5" cols="30" name="contents"></textarea></td>
+			</tr>
+
+			<tr>
+				<td class="t1">작성자 :</td>
+				<td><input name="writer"></td>
+			</tr>
+			<tr>
+				<td colspan="2" class="t1"><button id="b2">게시글 데이터 전송</button></td>
+			</tr>
+		</table>
+		<!-- 보충내용 : <input name="data"> -->
+	</form>
+</body>
+</html>
