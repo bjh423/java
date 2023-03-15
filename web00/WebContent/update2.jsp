@@ -1,5 +1,3 @@
-<%@page import="multi.MemberVO"%>
-<%@page import="multi.MemberDao3"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
     <!--client(브라우저)가 보낸 데이터를 받아야 함 == 자바 -->
@@ -8,20 +6,8 @@
     //코드 넣는 부분
     //HttpServletRequest request = new HttpServletRequest();
    	//tomcat은 미리 request를 만들어서 내장시켜놓음
-   	String id = request.getParameter("id");
-   	String pw = request.getParameter("pw");
-   	String name = request.getParameter("name");
-   	String tel = request.getParameter("tel");
-   	
-   	MemberVO bag = new MemberVO();
-   	bag.setId(id);
-   	bag.setPw(pw);
-   	bag.setName(name);
-   	bag.setTel(tel);
-   	
-   	MemberDao3 dao = new MemberDao3();
-   	dao.insert(bag);
-   	
+   	String no = request.getParameter("no");
+   	String contents = request.getParameter("contents");
     %>
     <!-- 브라우저에게 결과를 알려주기 위한 html코드가 미리 들어가있음  -->
 <!DOCTYPE html>
@@ -35,11 +21,9 @@ background: lime;}
 </style>
 </head>
 <body>
-회원가입 요청됨
+글 수정 요청됨
 <hr color="red">
-가입한 id : <%=id %><br>
-가입한 pw : <%=pw %><br>
-가입한 name : <%=name %><br>
-가입한 tel : <%=tel %><br>
+글 번호 : <%=no %><br>
+수정할 내용 : <%=contents %><br>
 </body>
 </html>
