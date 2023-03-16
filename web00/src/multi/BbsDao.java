@@ -5,6 +5,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 public class BbsDao {
 	public void insert(BbsVO bag) {
@@ -122,6 +123,49 @@ public class BbsDao {
 		return bag;
 	}
 
+	public ArrayList<BbsVO> list() {
+		ResultSet rs = null; // 기본형 : 값으로 초기화, 참조형 : null
+		ArrayList<BbsVO> list = new ArrayList<>(); // BbsVO만 들어간 arraylist
+		BbsVO bag = null;
+
+		try {
+			Class.forName("com.mysql.cj.jdbc.Driver");
+			System.out.println("1. 드라이버 설정 성공");
+
+			String url = "jdbc:mysql://localhost:3306/multi?serverTimezome=UTC";
+			String user = "root";
+			String password = "1234";
+			Connection con = DriverManager.getConnection(url, user, password);
+			System.out.println("2. mysql연결 성공");
+
+			String sql = "select * from Bbs ";
+			PreparedStatement ps = con.prepareStatement(sql); // PreparedStatement
+			System.out.println("3. SQL문 객체화");
+
+			rs = ps.executeQuery();
+			System.out.println("4. sql문 전송 성공");
+			while (rs.next()) { // 검색결과가 있는가? true = 있다, false = 없다
+				int no = Integer.parseInt(rs.getString(1));
+				String title = rs.getString(2);
+				String content = rs.getString(3);
+				String writer = rs.getString(4);
+
+				bag = new BbsVO();
+				bag.setNo(no);
+				bag.setTitle(title);
+				bag.setContent(content);
+				bag.setWriter(writer);
+
+				list.add(bag);
+			}
+			ps.close();
+			con.close();
+			rs.close();
+		} catch (Exception e) {
+			System.out.println("검색 중 문제 발생");
+		}
+		return list;
+	}
 }
 /*
  * 1. JDBC4단계 정리 : 드라이버 연결 -> 오라클 로그인 -> sql객체 생성 -> 객체 전송 2. 데이터를 접근해서 처리하는
