@@ -1,3 +1,5 @@
+<%@page import="multi.BbsDao"%>
+<%@page import="multi.BbsVO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
     <!--client(브라우저)가 보낸 데이터를 받아야 함 == 자바 -->
@@ -8,6 +10,12 @@
    	//tomcat은 미리 request를 만들어서 내장시켜놓음
    	String no = request.getParameter("no");
    	String contents = request.getParameter("contents");
+   	
+   	BbsVO bag = new BbsVO();
+   	BbsDao dao = new BbsDao();
+   	bag.setNo(Integer.parseInt(no));
+   	bag.setContent(contents);
+   	dao.update(bag);
     %>
     <!-- 브라우저에게 결과를 알려주기 위한 html코드가 미리 들어가있음  -->
 <!DOCTYPE html>
