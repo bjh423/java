@@ -8,12 +8,12 @@ import java.util.ArrayList;
 
 import javax.swing.JOptionPane;
 
-//import 화면DB연결.ProductVO;
+//import 화면DB연결.MovieVO;
 
-public class ProductDao {
-	ProductVO bag = new ProductVO();
+public class MovieDao2 {
+	MovieVO bag = new MovieVO();
 
-	public int insert(ProductVO bag) {
+	public int insert(MovieVO bag) {
 		int result = 0;
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
@@ -25,15 +25,14 @@ public class ProductDao {
 			Connection con = DriverManager.getConnection(url, user, password);
 			System.out.println("2. mysql연결 성공");
 
-			String sql = "insert into Product values (?,?,?,?,?,?)";
+			String sql = "insert into Movie values (?,?,?,?,?)";
 			PreparedStatement ps = con.prepareStatement(sql);
 
 			ps.setString(1, bag.getId());
-			ps.setString(2, bag.getName());
+			ps.setString(2, bag.getTitle());
 			ps.setString(3, bag.getContent());
-			ps.setString(4, bag.getPrice());
-			ps.setString(5, bag.getCompany());
-			ps.setString(6, bag.getImg());
+			ps.setString(4, bag.getLocation());
+			ps.setString(5, bag.getDirector());
 
 			System.out.println("3. sql문 부품(객체)로 만들기");
 
@@ -54,7 +53,7 @@ public class ProductDao {
 		return result;
 	}
 
-	public int delete(ProductVO bag) {
+	public int delete(MovieVO bag) {
 		int result = 0;
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
@@ -66,7 +65,7 @@ public class ProductDao {
 			Connection con = DriverManager.getConnection(url, user, password);
 			System.out.println("2. mysql연결 성공");
 
-			String sql = "delete from Product where id = ? ";
+			String sql = "delete from Movie where id = ? ";
 			PreparedStatement ps = con.prepareStatement(sql);
 			ps.setString(1, bag.getId());
 			System.out.println("3. sql문 부품(객체)로 만들기");
@@ -84,7 +83,7 @@ public class ProductDao {
 		return result;
 	}
 
-	public int update(ProductVO bag) {
+	public int update(MovieVO bag) {
 		int result = 0;
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
@@ -96,7 +95,7 @@ public class ProductDao {
 			Connection con = DriverManager.getConnection(url, user, password);
 			System.out.println("2. mysql연결 성공");
 
-			String sql = "update Product set content = ? where id = ? ";
+			String sql = "update Movie set tel = ? where id = ? ";
 			PreparedStatement ps = con.prepareStatement(sql);
 			ps.setString(1, bag.getContent());
 			ps.setString(2, bag.getId());
@@ -115,9 +114,9 @@ public class ProductDao {
 		return result;
 	}
 
-	public ProductVO one(String id) {
+	public MovieVO one(String id) {
 		ResultSet rs = null; // 기본형 : 값으로 초기화, 참조형 : null
-		ProductVO bag = null;
+		MovieVO bag = null;
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
 			System.out.println("1. 드라이버 설정 성공");
@@ -128,7 +127,7 @@ public class ProductDao {
 			Connection con = DriverManager.getConnection(url, user, password);
 			System.out.println("2. mysql연결 성공");
 
-			String sql = "select * from Product where id = ? ";
+			String sql = "select * from Movie where id = ? ";
 			PreparedStatement ps = con.prepareStatement(sql); // PreparedStatement
 			ps.setString(1, id);
 			System.out.println("3. SQL문 객체화");
@@ -136,20 +135,14 @@ public class ProductDao {
 			rs = ps.executeQuery();
 			System.out.println("4. sql문 전송 성공");
 			if (rs.next()) { // 검색결과가 있는가? true = 있다, false = 없다
-				String id2 = rs.getString("id");
-				String name = rs.getString("name");
-				String content = rs.getString("content");
-				String price = rs.getString("price");
-				String company = rs.getString("company");
-				String img = rs.getString("img");
-				
-				bag = new ProductVO();
-				bag.setId(id2);
-				bag.setName(name);
-				bag.setContent(content);
-				bag.setPrice(price);
-				bag.setCompany(company);
-				bag.setImg(img);
+				System.out.println("검색결과 있음");
+
+				bag = new MovieVO();
+				bag.setId(rs.getString(1));
+				bag.setTitle(rs.getString(2));
+				bag.setContent(rs.getString(3));
+				bag.setLocation(rs.getString(4));
+				bag.setDirector(rs.getString(5));
 			} else {
 				System.out.println("검색결과 없음");
 			}
@@ -159,7 +152,7 @@ public class ProductDao {
 		return bag;
 	}
 
-	public int login(ProductVO bag) {
+	public int login(MovieVO bag) {
 		ResultSet rs = null;
 		int result = 0; // 로그인 실패시
 		try {
@@ -172,7 +165,7 @@ public class ProductDao {
 			Connection con = DriverManager.getConnection(url, user, password);
 			System.out.println("2. mysql연결 성공");
 
-			String sql = "select pw,name from Product where id = ? ";
+			String sql = "select pw,name from Movie where id = ? ";
 			PreparedStatement ps = con.prepareStatement(sql);
 			ps.setString(1, bag.getId());
 			System.out.println("3. sql문 부품(객체)로 만들기");
@@ -180,7 +173,7 @@ public class ProductDao {
 			rs = ps.executeQuery();
 			if (rs.next()) { // 검색 성공
 				System.out.println("아이디 존재");
-				if (bag.getName().equals(rs.getString(1))) {// 비밀번호 일치
+				if (bag.getId().equals(rs.getString(1))) {// 비밀번호 일치
 					JOptionPane.showMessageDialog(null, "환영합니다 " + rs.getString(2) + "님");
 					result = 1;
 				} else {// 비밀번호 불일치
@@ -198,10 +191,11 @@ public class ProductDao {
 		return result;
 	}
 
-	public ArrayList<ProductVO> list() {
+	public ArrayList<MovieVO> list() {
 		ResultSet rs = null; // 기본형 : 값으로 초기화, 참조형 : null
-		ArrayList<ProductVO> list = new ArrayList<>(); // ProductVO만 들어간 arraylist
-		ProductVO bag = null;
+		ArrayList<MovieVO> list = new ArrayList<>(); // MovieVO만 들어간 arraylist
+		MovieVO bag = null;
+		int index=0;
 
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
@@ -213,29 +207,23 @@ public class ProductDao {
 			Connection con = DriverManager.getConnection(url, user, password);
 			System.out.println("2. mysql연결 성공");
 
-			String sql = "select * from Product ";
+			String sql = "select * from Movie ";
 			PreparedStatement ps = con.prepareStatement(sql); // PreparedStatement
 			System.out.println("3. SQL문 객체화");
 
 			rs = ps.executeQuery();
-			System.out.println("4. sql문 전송 성공");
+			System.out.println("4. sql문 전송 성공");	
+			
 			while (rs.next()) { // 검색결과가 있는가? true = 있다, false = 없다
-				String id = rs.getString("id");
-				String name = rs.getString("name");
-				String content = rs.getString("content");
-				String price = rs.getString("price");
-				String company = rs.getString("company");
-				String img = rs.getString("img");
-				
-				bag = new ProductVO();
-				bag.setId(id);
-				bag.setName(name);
-				bag.setContent(content);
-				bag.setPrice(price);
-				bag.setCompany(company);
-				bag.setImg(img);
-				
+				bag = new MovieVO();
+				bag.setId(rs.getString(1));
+				bag.setTitle(rs.getString(2));
+				bag.setContent(rs.getString(3));
+				bag.setLocation(rs.getString(4));
+				bag.setDirector(rs.getString(5));
+
 				list.add(bag);
+				index++;
 			}
 			ps.close();
 			con.close();
@@ -243,6 +231,9 @@ public class ProductDao {
 		} catch (Exception e) {
 			System.out.println("검색 중 문제 발생");
 		}
+	/*if (index==0) {
+			list = null;
+		}*/
 		return list;
 	}
 
@@ -254,5 +245,3 @@ public class ProductDao {
  * 주로 넣는 기능 중 C(insert)만 사용해봄. : String x = "insert into 테이블 values(입력할 값,값,값)"
  * 5. sql를 객체를 만들었을 때 모르는 값을 표현하는 연산자. : ?
  */
-
-

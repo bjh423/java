@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script type="text/javascript">
+	//alert('회원탈퇴 페이지 입니다.')
+</script>
+<style type="text/css">
+body {
+	background: #ffdc7d;
+}
+
+button {
+	background: #82a9ff;
+}
+
+.t1 {
+	/* .은 클래스(여러개) */
+	width: 150px;
+	text-align: center;
+}
+</style>
+</head>
+<body>
+	<h3>상품 상세 페이지</h3>
+	<a href="index.html"><button id="b1">처음으로</button></a>
+
+	<hr>
+	<a href="one3.jsp?id=100"><button style="background: cyan">100</button></a>
+	<a href="one3.jsp?id=101"><button style="background: cyan">101</button></a>
+	<a href="one3.jsp?id=102"><button style="background: cyan">102</button></a>
+	<hr>
+
+
+	<form action="one3.jsp" method="get">
+		<table border="1">
+			<tr>
+				<td class="t1">검색할 ID :</td>
+				<td><input name="id"></td>
+			</tr>
+			<tr>
+				<td colspan="2" class="t1"><button id="b2">게시판 검색할 id
+						데이터 전송</button></td>
+			</tr>
+		</table>
+	</form>
+</body>
+</html>

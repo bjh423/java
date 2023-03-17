@@ -19,7 +19,7 @@ public class MovieDao {
 			Class.forName("com.mysql.cj.jdbc.Driver");
 			System.out.println("1. 드라이버 설정 성공");
 
-			String url = "jdbc:mysql://localhost:3306/multi?serverTimezome=UTC";
+			String url = "jdbc:mysql://localhost:3306/multi?serverTimezone=UTC";
 			String user = "root";
 			String password = "1234";
 			Connection con = DriverManager.getConnection(url, user, password);
@@ -137,16 +137,17 @@ public class MovieDao {
 			if (rs.next()) { // 검색결과가 있는가? true = 있다, false = 없다
 				System.out.println("검색결과 있음");
 				String id2 = rs.getString(1);
-				String pw2 = rs.getString(2);
-				String name2 = rs.getString(3);
-				String tel2 = rs.getString(4);
-				System.out.println(id2 + " " + pw2 + " " + name2 + " " + tel2);
+				String title2 = rs.getString(2);
+				String content2 = rs.getString(3);
+				String location2 = rs.getString(4);
+				String director = rs.getString(5);
 
-				/*bag = new MovieVO();
+				bag = new MovieVO();
 				bag.setId(id2);
-				bag.setName(name2);
-				bag.setPw(pw2);
-				bag.setTel(tel2);*/
+				bag.setTitle(title2);
+				bag.setContent(content2);
+				bag.setLocation(location2);
+				bag.setDirector(director);
 			} else {
 				System.out.println("검색결과 없음");
 			}
@@ -218,16 +219,17 @@ public class MovieDao {
 			System.out.println("4. sql문 전송 성공");
 			while (rs.next()) { // 검색결과가 있는가? true = 있다, false = 없다
 				String id2 = rs.getString(1);
-				String pw2 = rs.getString(2);
-				String name2 = rs.getString(3);
-				String tel2 = rs.getString(4);
-				// System.out.println(id2 + " " + pw2 + " " + name2 + " " + tel2);
+				String title2 = rs.getString(2);
+				String content2 = rs.getString(3);
+				String location2 = rs.getString(4);
+				String director = rs.getString(5);
 
-				/*bag = new MovieVO();
+				bag = new MovieVO();
 				bag.setId(id2);
-				bag.setName(name2);
-				bag.setPw(pw2);
-				bag.setTel(tel2);*/
+				bag.setTitle(title2);
+				bag.setContent(content2);
+				bag.setLocation(location2);
+				bag.setDirector(director);
 
 				list.add(bag);
 			}
