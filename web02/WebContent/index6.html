@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script type="text/javascript">
+function who() {
+	name1 = document.getElementById("name").value
+	company1 = document.getElementById("company").value
+	rank1 = document.getElementById("rank").value
+	gender1 = document.getElementById("gender").value
+	result1 = document.getElementById("result")
+	
+	if (gender1=='남자') {
+		img = '<img src=img/man.png>'
+	} else {
+		img = '<img src=img/woman.png>'
+	}
+	result1.innerHTML = company1 + '회사에 ' + rank1 + '으로 있는 ' + name1 + '입니다.<br>' + img
+}
+</script>
+</head>
+<body>
+이름 : <input id="name" value="홍길동"><br>
+회사명 : <input id="company" value="멀티"><br>
+직책 : <input id="rank" value="팀장"><br>
+성별 : <input id="gender" value="남자"><br>
+<button onclick="who()">결과확인</button>
+<div id="result">
+결과
+</div>
+</body>
+</html>

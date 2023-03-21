@@ -27,6 +27,7 @@ public class Monday extends HttpServlet {
 		out.print("오늘은 월요일 날씨는 " + temp);
 		out.close();
 	}
+	
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 

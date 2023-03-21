@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script type="text/javascript">
+	function bag() {
+		fir = document.getElementById('first').value
+		result1 = document.getElementById('result')
+
+		switch (fir) {
+		case '휴대폰':
+			result1.innerHTML = '<img src=img/phone.png>'
+			break;
+		case '시계':
+			result1.innerHTML = '<img src=img/clock.png>'
+			break;
+		default:
+			result1.innerHTML = '<img src=img/no.png>'
+			break;
+		}
+
+	}
+	function bag2() {
+		sec = document.getElementById('second').value
+		if (sec == '시계') {
+			location.href = 'https://www.chrono24.kr/'
+		} else if (sec == '가방') {
+			location.href = 'https://gabangpop.co.kr/'
+		} else {
+			location.href = 'http://www.naver.com'
+		}
+	}
+</script>
+</head>
+<body>
+	가방안에 들어있는 물건 중 제일 중요한 것 입력 :
+	<input id='first'>
+	<button onclick='bag()'>확인</button>
+	<br> 가방안에 들어있는 물건 중 두번째 중요한 것 입력 :
+	<input id='second'>
+	<button onclick='bag2()'>확인</button>
+</body>
+<div id='result'>결과</div>
+</html>

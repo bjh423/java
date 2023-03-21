@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script type="text/javascript">
+function idcheck(){
+	resultTag = document.getElementById("result")
+	idLength = document.getElementById('user').value.length
+	if (idLength>=5) {
+		resultTag.innerHTML = '글자수 만족<br><img src="img/yes.png" width = 200px height = 200px>'
+	} else {
+		resultTag.innerHTML = '글자수 확인<br><img src="img/no.png" width = 200px height = 200px>'
+	}
+}
+function pwcheck() {
+	resultTag = document.getElementById("result")
+	pw11 = document.getElementById('pw1').value
+	pw22 = document.getElementById('pw2').value
+	if (pw11==pw22) {
+		//resultTag.innerHTML = '패스워스 일치<img src="img/yes.png" width = 200px height = 200px>'
+		location.href = 'http://www.naver.com'
+	} else {
+		resultTag.innerHTML = '패스워드 불일치 <br><img src="img/no.png" width = 200px height = 200px>'
+	}
+}
+</script>
+</head>
+<body>
+	아이디 입력 :
+	<input id="user" value="root"><button onclick="idcheck()">글자수 확인</button>
+	<br> 패스워드 입력 :
+	<input id="pw1" value="1234">
+	<br> 패스워드 확인 :
+	<input id="pw2" value="1234">
+	<button onclick="pwcheck()">패스워드 확인</button>
+	<hr>
+	<div id="result" style="color:red; background:yellow; width:200px; height:50px; font:20px;">결과창</div>
+</body>
+</html>
