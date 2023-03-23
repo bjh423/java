@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script type="text/javascript" src="js/jquery-3.6.4.min.js"></script>
+<script type="text/javascript">
+$(function() {
+	$("#b1").click(function() {
+		$("#bbs").append($("#text").val() + "<br>" )
+	})
+	$("#b2").click(function() {
+		$("#bbs").append("<img src='img/clock.png' width=50px height=50px>")
+	})
+})
+</script>
+</head>
+<body>
+입력내용: <input id="text"><button id="b1">글자 추가</button><button id="b2">자동차 추가</button>
+<div id = "bbs"></div>
+</body>
+</html>

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script type="text/javascript" src="js/jquery-3.6.4.min.js"></script>
+<script type="text/javascript">
+	$(function() {
+		$("#b1").click(function() {
+			$.ajax({
+				url : "ok.html",
+				success : function(x) {
+					alert(x)
+					$("#result").append(x + "<br>")
+				}
+			})
+		})
+		$("#b2").click(function() {
+			$.ajax({
+				url : "tour.html",
+				success : function(y) {
+					alert(y)
+				}
+			})
+
+		})
+		$("#b3").click(function() {
+
+		})
+	})
+</script>
+</head>
+<body>
+	<button id="b1">ok</button>
+	<button id="b2">tour</button>
+	<button id="b3">weather</button>
+	<div id="result"></div>
+</body>
+</html>

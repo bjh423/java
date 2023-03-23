@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script type="text/javascript" src="js/jquery-3.6.4.min.js"></script>
+<script type="text/javascript">
+	$(function() {
+		$('#b1').click(function() {
+			t1 = $('#food').val()
+			t2 = $('#where').val()
+			alert("먹고싶은 음식 : " + t1 + ", 가고 싶은 곳 : " + t2)
+		})
+		$('#b2').click(function() {
+			if ($('#site').val() == "movie") {
+				location.href='http://cgv.co.kr'
+			} else {
+				location.href= $('#site').val()
+			}
+		})
+	})
+</script>
+</head>
+<body>
+	<input id="food" value="먹고 싶은 음식"><br>
+	<input id="where" value="가고 싶은 곳"><br>
+	<button id = "b1">버튼1</button><br><br>
+	<input id="site" value="내가 자주가는 사이트">
+	<button id="b2">버튼2</button>
+</body>
+</html>
