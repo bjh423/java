@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script type="text/javascript" src="js/jquery-3.6.4.min.js"></script>
+<script type="text/javascript">
+	$(function() {
+		$('#b1').click(function() {
+			$.ajax({
+				url : 'data/rank2.xml',
+				success : function(x) {
+					list = $(x).find('winner')
+					for (var i = 0; i < list.length; i++) {
+						$('#result').append($(list[i]).find('year').text() + ", ")
+						$('#result').append($(list[i]).find('class2').text() + ", ")
+						$('#result').append($(list[i]).find('name').text() + ", ")
+						$('#result').append($(list[i]).find('field').text() + "<br>")
+					}
+				}
+			})
+		})
+		
+		$('#b2').click(function() {
+			$.ajax({
+				url : 'data/dataset.xml',
+				success : function(x) {
+					list = $(x).find('record')
+					for (var i = 0; i < list.length; i++) {
+						$('#result').append($(list[i]).find('id').text() + ", ")
+						$('#result').append($(list[i]).find('first_name').text() + ", ")
+						$('#result').append($(list[i]).find('last_name').text() + ", ")
+						$('#result').append($(list[i]).find('email').text() + ", ")
+						$('#result').append($(list[i]).find('gender').text() + ", ")
+						$('#result').append($(list[i]).find('address').text() + "<br>")
+					}
+				}
+			})
+		})
+		$('#b3').click(function() {
+			$.ajax({
+				url : 'data/dataset.xml',
+				success : function(x) {
+					list = $(x).find('record')
+					for (var i = 0; i < list.length; i++) {
+						$('#result').append($(list[i]).find('id').text() + ", ")
+						$('#result').append($(list[i]).find('gender').text() + ", ")
+						$('#result').append($(list[i]).find('address').text() + "<br>")
+					}
+				}
+			})
+		})
+	})
+</script>
+</head>
+<button id="b1">XML받아오기-1</button>
+<button id="b2">XML받아오기-2</button>
+<button id="b3">XML받아오기-3</button>
+<hr color="red">
+<div id="result"></div>
+</body>
+</html>

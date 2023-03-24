@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script type="text/javascript" src="js/jquery-3.6.4.min.js"></script>
+<script type="text/javascript">
+	$(function() {
+		$("#b1").click(function() {
+			$("#result").empty()
+			$.ajax({
+				url : "https://api.rss2json.com/v1/api.json?rss_url=https%3A%2F%2Frss.hankyung.com%2Ffeed%2Fhei.xml&api_key=uwb1pzhesznnp7emmknltjoo7oga4kaotnumpg6q",
+				success : function(x) {
+					alert("연결성공")
+					list = x.items
+					for (var i = 0; i < list.length; i++) {
+						t = list[i].title
+						l = list[i].link
+						a = list[i].author
+						d = list[i].pubDate
+						$("#result").append("<a href=" + l + ">" + t + "</a>" + a + " " + d + "<br>")
+					}
+				}//success
+			})//ajax
+		})//b1
+		$("#b2").click(function() {
+			$("#result").empty()
+			$.ajax({
+				url : "https://api.rss2json.com/v1/api.json?rss_url=https%3A%2F%2Frss.hankyung.com%2Ffeed%2Fit.xml&api_key=uwb1pzhesznnp7emmknltjoo7oga4kaotnumpg6q",
+				success : function(x) {
+					alert("연결성공")
+					list = x.items
+					for (var i = 0; i < list.length; i++) {
+						t = list[i].title
+						l = list[i].link
+						a = list[i].author
+						d = list[i].pubDate
+						$("#result").append("<a href=" + l + ">" + t + "</a>" + a + " " + d + "<br>")
+					}
+				}//success
+			})//ajax
+		})//b2
+		$("#b3").click(function() {
+			$("#result").empty()
+			$.ajax({
+				url : "https://api.rss2json.com/v1/api.json?rss_url=https%3A%2F%2Frss.hankyung.com%2Ffeed%2Finternational.xml&api_key=uwb1pzhesznnp7emmknltjoo7oga4kaotnumpg6q",
+				success : function(x) {
+					alert("연결성공")
+					list = x.items
+					for (var i = 0; i < list.length; i++) {
+						t = list[i].title
+						l = list[i].link
+						a = list[i].author
+						d = list[i].pubDate
+						$("#result").append("<a href=" + l + ">" + t + "</a>" + a + " " + d + "<br>")
+				}
+			}
+			})
+		})
+		$("#b4").click(function() {
+			$("#result").empty()
+			$.ajax({
+				url : "https://api.rss2json.com/v1/api.json?rss_url=https%3A%2F%2Fnews.sbs.co.kr%2Fnews%2FSectionRssFeed.do%3FsectionId%3D02%26plink%3DRSSREADER&api_key=uwb1pzhesznnp7emmknltjoo7oga4kaotnumpg6q",
+				success : function(x) {
+					alert("연결성공")
+					list = x.items
+					for (var i = 0; i < list.length; i++) {
+						t = list[i].title
+						l = list[i].link
+						a = list[i].author
+						d = list[i].pubDate
+						p = list[i].thumbnail
+						$("#result").append("<img src = " + p + " width = 200px height=100px><br><a href=" + l + ">" + t + "</a> " + a + " " + d + "<br>")
+				}
+			}
+			})
+		})
+		$("#b5").click(function() {
+			$("#result").empty()
+			$.ajax({
+				url : "https://api.openweathermap.org/data/3.0/onecall?lat=33.44&lon=-94.04&exclude=hourly,daily&appid=b02860389edb2782121289cb2552bb73",
+				success : function(x) {
+					alert("연결성공")
+			}
+			})
+		})
+	})
+	// https://api.openweathermap.org/data/3.0/onecall?lat=33.44&lon=-94.04&exclude=hourly,daily&appid=b02860389edb2782121289cb2552bb73
+</script>
+</head>
+<button id="b1">한경 연예</button>
+<button id="b2">한경 IT</button>
+<button id="b3">한경 국제</button>
+<button id="b4">sbs 경제</button>
+<button id="b5">날씨</button>
+<hr color="red">
+<div id="result"></div>
+</body>
+</html>

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script type="text/javascript" src="js/jquery-3.6.4.min.js"></script>
+<script type="text/javascript">
+	$(function() {
+		$('#b1').click(function() {
+			$.ajax({
+				url : "data/rank.json",
+				success : function(x) {
+					list = x.rank
+					alert(list.length)
+					for (var i = 0; i < list.length; i++) {
+						n = list[i].name
+						t = list[i].tel
+					}
+				}
+			})
+		})
+		$('#b2').click(function() {
+			$.ajax({
+				$('#result').empty()
+				url : "data/MOCK_DATA.json",
+				success : function(x) {
+					list = x
+					alert(list.length)
+					for (var i = 0; i < list.length; i++) {
+						id = list[i].id
+						email = list[i].email
+						$('#result').append(id + ", " + email + "<br>")
+					}
+				}
+			})
+		})
+		$('#b3')
+				.click(
+						function() {
+							$('#result').empty()
+							$
+									.ajax({
+										url : "https://api.rss2json.com/v1/api.json?rss_url=http%3A%2F%2Frss.hankyung.com%2Ffeed%2Fhei.xml&api_key=uwb1pzhesznnp7emmknltjoo7oga4kaotnumpg6q",
+										success : function(x) {
+											alert("성공" + x)
+											list = x.items
+											for (var i = 0; i < list.length; i++) {
+												t = list[i].title
+												l = list[i].link
+												p = list[i].pubDate
+												a = list[i].author
+												$('#result').append(
+														"<a href =" + l + ">"
+																+ t + "</a>"
+																+ p + " " + a
+																+ " " + "<br>")
+											}
+										}
+									})
+						})
+	}) //$
+</script>
+</head>
+<body>
+	<button id="b1">json받아오기</button>
+	<button id="b2">json받아오기</button>
+	<button id="b3">받아오기</button>
+	<hr color="red">
+	<div id="result"></div>
+</body>
+</html>
