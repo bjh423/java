@@ -2,6 +2,7 @@ package com.multi.mvc00;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
@@ -35,11 +36,11 @@ public class BbsController {
 	}
 	
 	@RequestMapping("one2.multi")
-	public void one(String no) {
+	public void one(String no,Model model) {
 		System.out.println("게시판 one 처리");
 		System.out.println("검색할 게시글 번호 : " + no);
 		
-		dao.one(Integer.parseInt(no));
+		model.addAttribute("bag",dao.one(Integer.parseInt(no)));
 	}
 
 }

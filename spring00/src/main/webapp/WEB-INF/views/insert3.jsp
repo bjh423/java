@@ -7,10 +7,6 @@
 <title>Insert title here</title>
 </head>
 <body>
-게시글 검색 처리 후 화면<br>
-no : ${bag.no}<br>
-title : ${bag.title}<br>
-content : ${bag.content}<br>
-writer : ${bag.writer}
+book insert
 </body>
 </html>

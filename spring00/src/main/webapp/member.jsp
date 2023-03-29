@@ -7,6 +7,14 @@
 <title>Insert title here</title>
 </head>
 <body>
+<h3>로그인 화면</h3>
+<hr>
+<form action="login" method="get">
+id : <input name="id" value="qwe"><br>
+pw : <input name="pw" value="1234"><br>
+<button type="submit">버튼</button>
+</form>
+
 <h3>회원가입 화면</h3>
 <hr>
 <form action="insert" method="get">
@@ -35,8 +43,8 @@ id : <input name="id" value="apple"><br>
 <h3>회원검색 화면</h3>
 <hr>
 <form action="one" method="get">
-id : <input name="id" value="apple"><br>
-<button type="submit">버튼</button>
+	id : <input name="id" value="apple"><br>
+	<button type="submit">서버로 전송</button>
 </form>
 
 </body>

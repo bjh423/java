@@ -2,6 +2,7 @@ package com.multi.mvc00;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
@@ -41,10 +42,26 @@ public class MemberController {
 	}
 	
 	@RequestMapping("one")
-	public void one(String id/*, MemberDao dao*/) {
-		System.out.println("one 요청됨");
+	public void one(String id,Model model) {
+		System.out.println("one요청됨.");
+		System.out.println(id);
+		MemberVO bag = dao.one(id);
+		// views/one.jsp에서 사용 가능 하도록 model을 통해 설정
+		model.addAttribute("bag", bag);
+	}
+	
+	@RequestMapping("login")
+	public String login(MemberVO bag/*, MemberDao dao*/) {
+		System.out.println("login 요청됨");
 		
-		dao.one(id);
+		int result = dao.login(bag); //1,0
+		
+		if (result == 1) {
+			return "ok";//views아래 파일이름.jsp를 호출
+		} else {
+			//views가 아니라 webapp아래 member.jsp로 가고 싶은 경우 redirect:
+			return "redirect:member.jsp";
+		}
 	}
 	
 	@RequestMapping("list")

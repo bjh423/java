@@ -7,10 +7,7 @@
 <title>Insert title here</title>
 </head>
 <body>
-게시글 검색 처리 후 화면<br>
-no : ${bag.no}<br>
-title : ${bag.title}<br>
-content : ${bag.content}<br>
-writer : ${bag.writer}
+로그인 처리 성공<br>
+<img src="resources/img/yes.png" width=200px height=200px>
 </body>
 </html>
