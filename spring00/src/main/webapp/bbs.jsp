@@ -39,5 +39,11 @@ no : <input name="no" value="123"><br>
 <button type="submit">버튼</button>
 </form>
 
+<h3>게시글전체 검색 화면</h3>
+<hr>
+<form action="list2.multi" method="get">
+<button type="submit">버튼</button>
+</form>
+
 </body>
 </html>

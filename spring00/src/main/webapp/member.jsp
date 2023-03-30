@@ -47,5 +47,11 @@ id : <input name="id" value="apple"><br>
 	<button type="submit">서버로 전송</button>
 </form>
 
+<h3>회원전체검색 화면</h3>
+<hr>
+<form action="list" method="get">
+	<button type="submit">서버로 전송</button>
+</form>
+
 </body>
 </html>
