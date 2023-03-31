@@ -7,6 +7,6 @@
 <title>Insert title here</title>
 </head>
 <body>
-로그인 성공
+delete 실행됨
 </body>
 </html>

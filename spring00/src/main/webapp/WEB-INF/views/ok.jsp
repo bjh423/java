@@ -7,7 +7,7 @@
 <title>Insert title here</title>
 </head>
 <body>
-로그인 처리 성공<br>
+${id}님의 로그인 처리 성공<br>
 <img src="resources/img/yes.png" width=200px height=200px>
 </body>
 </html>

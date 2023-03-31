@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+	pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -7,6 +7,11 @@
 <title>Insert title here</title>
 </head>
 <body>
-로그인 성공
+	<%
+		int count = (int) session.getAttribute("count");
+	count++;
+	session.setAttribute("count", count);
+	%>
+	현재 카운트 ${count }
 </body>
 </html>
