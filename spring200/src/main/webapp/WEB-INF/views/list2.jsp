@@ -9,27 +9,14 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <style>
-body {
-	background: yellow;
-}
-
 td {
 	width: 100px;
 	text-align: center;
 }
-
-.top {
-	background: black;
-	color: white;
-}
-
-.down {
-	background: lime;
-}
 </style>
 </head>
 <body>
-	<table>
+	<table border=1>
 		<tr>
 			<td class="top">no</td>
 			<td class="top">title</td>
@@ -37,9 +24,9 @@ td {
 			<td class="top">writer</td>
 		</tr>
 
-		<c:forEach items="${list}" var="bag"> 
+		<c:forEach items="${list}" var="bag">
 
-<tr>
+			<tr>
 				<td class="down">${bag.no}</td>
 				<td class="down"><a href="one2.multi?no=${bag.no}">${bag.title}</a>
 				</td>

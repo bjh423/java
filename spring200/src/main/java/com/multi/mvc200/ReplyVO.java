@@ -38,4 +38,10 @@ public class ReplyVO {
 		this.writer = writer;
 	}
 
+	@Override
+	public String toString() {
+		return "ReplyVO [no=" + no + ", bbsno=" + bbsno + ", content=" + content + ", writer=" + writer + "]";
+	}
+
+	
 }

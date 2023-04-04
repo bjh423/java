@@ -57,7 +57,40 @@ public class BbsController {
 		System.out.println(list.size()); // 사이즈를 찍어보세요.
 		model.addAttribute("list", list);
 	}
+	
+	@RequestMapping("list5")
+	public void list5(Model model) {
+		ArrayList<BbsVO> list = dao.list();
+		System.out.println(list.size()); // 사이즈를 찍어보세요.
+		model.addAttribute("list", list);
+	}
+	
+	@RequestMapping("list8")
+	public void list8(int bbsno, Model model) {
+		BbsVO one = dao.one(bbsno);
+		System.out.println(one); // 사이즈를 찍어보세요.
+		model.addAttribute("one", one);
+	}
+	
+	@RequestMapping("list9")
+	public void list9(Model model) {
+		ArrayList<MemberVO> list = dao.listM();
+		System.out.println(list); // 사이즈를 찍어보세요.
+		model.addAttribute("bag", list);
+	}
+	
+	@RequestMapping("bbsupdate")
+	public void bbsUpdate(BbsVO bag) {
+		System.out.println("update 요청됨");
+		dao.update(bag);
+	}
+	
+	@RequestMapping("bbsdelete")
+	public String bbsDelete(int no) {
+		System.out.println("delete 요청됨");
+		dao.delete(no);
+		return "redirect:/ajax_test.jsp";
+	}
 
-	// https://search.naver.com/search.naver?where=nexearch&sm=top_hty&fbm=1&ie=utf8&query=%EC%9E%90%EB%8F%99%EC%B0%A8
 
 }
