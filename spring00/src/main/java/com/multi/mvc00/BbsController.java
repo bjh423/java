@@ -1,5 +1,7 @@
 package com.multi.mvc00;
 
+import java.util.ArrayList;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -41,6 +43,13 @@ public class BbsController {
 		System.out.println("검색할 게시글 번호 : " + no);
 		
 		model.addAttribute("bag",dao.one(Integer.parseInt(no)));
+	}
+	
+	@RequestMapping("list2.multi")
+	public void list(Model model) {
+		System.out.println("게시판 list 처리");
+		ArrayList<BbsVO> list = dao.list();
+		model.addAttribute("list",list);
 	}
 
 }
