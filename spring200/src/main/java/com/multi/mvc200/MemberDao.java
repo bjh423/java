@@ -8,6 +8,8 @@ import java.util.ArrayList;
 
 import javax.swing.JOptionPane;
 
+import org.mybatis.spring.SqlSessionTemplate;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 //import 화면DB연결.MemberVO;
@@ -16,6 +18,10 @@ import org.springframework.stereotype.Component;
 //@(어노테이션) or XML파일에 설정
 @Component
 public class MemberDao {
+	
+	@Autowired
+	SqlSessionTemplate mybatis;
+	
 	MemberVO bag = new MemberVO();
 
 	public int insert(MemberVO bag) {
