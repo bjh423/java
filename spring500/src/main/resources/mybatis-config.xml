@@ -7,11 +7,13 @@
 	<typeAliases>
 		<typeAlias type="com.multi.mvc500.MemberVO" alias="memberVO"></typeAlias>
 		<typeAlias type="com.multi.mvc500.BbsVO" alias="BbsVO"></typeAlias>
+		<typeAlias type="com.multi.mvc500.BookVO" alias="BookVO"></typeAlias>
 	</typeAliases>
 
 	<!-- SQL문 정의 파일 목록 지정, 테이블당 하나 -->
 	<mappers>
 		<mapper resource="mapper/memberMapper.xml" />
 		<mapper resource="mapper/bbsMapper.xml" />
+		<mapper resource="mapper/bookMapper.xml" />
 	</mappers>
 </configuration>

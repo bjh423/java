@@ -49,9 +49,8 @@ public class MemberController {
 	public void one(String id, Model model) {
 		System.out.println("one요청됨.");
 		System.out.println(id);
-		//MemberVO bag = dao.one(id);
-		// views/one.jsp에서 사용 가능 하도록 model을 통해 설정
-		//model.addAttribute("bag", bag);
+		MemberVO bag = dao.one(id);
+		model.addAttribute("bag", bag);
 	}
 
 //	@RequestMapping("login")

@@ -16,7 +16,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class BbsDao {
-	
+
 	@Autowired
 	SqlSessionTemplate qwe;
 
@@ -35,10 +35,11 @@ public class BbsDao {
 		return result;
 	}
 
-//	public BbsVO one(int no) {
-//	}
-//
-//	
+	public BbsVO one(int no) {
+		BbsVO result = qwe.selectOne("bbs.one", no);
+		return result;
+	}
+
 //
 //	public ArrayList<BbsVO> list() {
 //	}
@@ -51,5 +52,3 @@ public class BbsDao {
  * 주로 넣는 기능 중 C(insert)만 사용해봄. : String x = "insert into 테이블 values(입력할 값,값,값)"
  * 5. sql를 객체를 만들었을 때 모르는 값을 표현하는 연산자. : ?
  */
-
-

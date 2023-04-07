@@ -12,4 +12,8 @@
 	<update id="up"  parameterType="BbsVO">
 		update bbs set content = #{content} where no = #{no}
 	</update>
+	
+	<select id="one"  parameterType="BbsVO" resultType="BbsVO">
+		select * from bbs where no = #{no}
+	</select>
 </mapper>

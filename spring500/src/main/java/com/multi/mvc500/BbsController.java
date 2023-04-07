@@ -36,15 +36,15 @@ public class BbsController {
 		
 		dao.update(bag);
 	}
-//	
-//	@RequestMapping("one2.multi")
-//	public void one(String no,Model model) {
-//		System.out.println("게시판 one 처리");
-//		System.out.println("검색할 게시글 번호 : " + no);
-//		
-//		model.addAttribute("bag",dao.one(Integer.parseInt(no)));
-//	}
-//	
+	
+	@RequestMapping("one2.multi")
+	public void one(String no,Model model) {
+		System.out.println("게시판 one 처리");
+		System.out.println("검색할 게시글 번호 : " + no);
+		
+		dao.one(Integer.parseInt(no));
+	}
+	
 //	@RequestMapping("list2.multi")
 //	public void list(Model model) {
 //		System.out.println("게시판 list 처리");

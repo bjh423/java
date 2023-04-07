@@ -39,11 +39,12 @@ public class MemberDao {
 		int result = my.update("member.up", bag);
 		return result;
 	}
-//
-//	public MemberVO one(String id) {
-//		return bag;
-//	}
-//
+
+	public MemberVO one(String id) {
+		bag = my.selectOne("member.one", id);
+		return bag;
+	}
+
 //	public int login(MemberVO bag) {
 //		return result;
 //	}
