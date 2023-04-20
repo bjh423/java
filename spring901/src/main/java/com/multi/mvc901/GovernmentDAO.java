@@ -13,45 +13,45 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-//import 화면DB연결.MemberVO;
+//import 화면DB연결.GovernmentVO;
 
 //그냥 하면 싱글톤x
 //@(어노테이션) or XML파일에 설정
 @Component
-public class MemberDao {
+public class GovernmentDAO {
 
 	@Autowired
 	SqlSessionTemplate my;
 
-	MemberVO bag = new MemberVO();
+	GovernmentVO bag = new GovernmentVO();
 
-	public int insert(MemberVO bag) {
-		int result = my.insert("member.create", bag);
+	public int insert(GovernmentVO bag) {
+		int result = my.insert("Government.create", bag);
 		// namespace . id
 		return result;
 	}
 
 	public int delete(String id) {
-		int result = my.delete("member.del", id);
+		int result = my.delete("Government.del", id);
 		return result;
 	}
 
-	public int update(MemberVO bag) {
-		int result = my.update("member.up", bag);
+	public int update(GovernmentVO bag) {
+		int result = my.update("Government.up", bag);
 		return result;
 	}
 
-	public MemberVO one(String id) {
-		bag = my.selectOne("member.one", id);
+	public GovernmentVO one(String id) {
+		bag = my.selectOne("Government.one", id);
 		return bag;
 	}
 
-//	public int login(MemberVO bag) {
+//	public int login(GovernmentVO bag) {
 //		return result;
 //	}
 //
-	public List<MemberVO> list() {
-		List<MemberVO> list = my.selectList("member.all");
+	public List<GovernmentVO> list() {
+		List<GovernmentVO> list = my.selectList("Government.all");
 		System.out.println(list.size());
 		return list;
 	}

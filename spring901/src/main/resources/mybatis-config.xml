@@ -6,10 +6,12 @@
 	<!-- SQL문 정의할 때 VO표현을 간단하게 하고 싶은 경우. 별명을 지어서 사용 -->
 	<typeAliases>
 		<typeAlias type="com.multi.mvc901.MemberVO" alias="memberVO"></typeAlias>
+		<typeAlias type="com.multi.mvc901.GovernmentVO" alias="GovernmentVO"></typeAlias>
 	</typeAliases>
 
 	<!-- SQL문 정의 파일 목록 지정, 테이블당 하나 -->
 	<mappers>
 		<mapper resource="mapper/memberMapper.xml" />
+		<mapper resource="mapper/governmentMapper.xml" />
 	</mappers>
 </configuration>

@@ -63,6 +63,7 @@
 </form>
 <hr color="red">
 
-<button type="button">먹통버튼(아무 기능이 없음)</button>
+<a href="list"><button type="button">list</button></a>
+
 </body>
 </html>

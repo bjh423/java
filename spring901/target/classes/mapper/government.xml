@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="government">
+	
+	<insert id="create" parameterType="governmentVO">
+		insert into government values (#{id}, #{city}, #{district}, #{title},#{content})
+	</insert>
+	
+	<delete id="del"  parameterType="governmentVO">
+		delete from government where id = #{id}
+	</delete>
+	
+	<update id="up"  parameterType="governmentVO">
+		update government set content = #{content} where id = #{id}
+	</update>
+	
+<!-- 	<resultMap type="governmentVO" id="map1">
+		<result property = "id" column="id"></result>
+		<result property = "pw" column="pw"></result>
+		<result property = "name" column="name"></result>
+		<result property = "tel" column="tel"></result>
+	</resultMap> -->
+	
+	<select id="one" parameterType="String" resultType="governmentVO">
+		select * from government where id = #{id}
+	</select>
+	
+	<select id="all" resultType="governmentVO">
+		select * from government
+	</select>
+	
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
